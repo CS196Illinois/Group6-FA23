@@ -5,12 +5,21 @@ import pandas as pd
 
 class session:
 
-    ALPACA_API_KEY = "PKNA5BRTUQNYGT6HKOKU" # These have zero damage potential, so I am not worried about them being public
+    # Default values for the api keys and base url, these are redefined if set in the constructor
+    # These have zero damage potential, so I am not worried about them being public
+    ALPACA_API_KEY = "PKNA5BRTUQNYGT6HKOKU"
     ALPACA_SECRET_KEY = "UW2YAU3T6J0meNvwiNQbcqxwtYWu5anHxoe0AVgu"
     BASE_URL = "https://paper-api.alpaca.markets"
 
-    def __init__(self):
+    def __init__(self, apiKey = None, secretKey = None, baseUrl = None):
         self.api = tradeapi.REST(self.ALPACA_API_KEY, self.ALPACA_SECRET_KEY, self.BASE_URL, api_version='v2')
+
+        if (apiKey != None):
+            self.apiKey = apiKey
+        if (secretKey != None):
+            self.secretKey = secretKey
+        if (baseUrl != None):
+            self.baseUrl = baseUrl
     
     def get_account(self):
         return self.api.get_account()
@@ -38,7 +47,7 @@ class session:
     # get_history('AAPL', '1D', '2020-01-01', '2020-01-10'), end date is optional
     def get_history(self, symbol, timeframe, start, end = datetime.now().date() - timedelta(days = 1), filter = None):
 
-        data = self.api.get_bars(symbol, timeframe, start, end)
+        data = self.api.get_bars(symbol, timeframe, start, end, adjustment='split')
 
         df = pd.DataFrame()
 
