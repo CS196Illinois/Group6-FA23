@@ -45,5 +45,11 @@ class PortfolioForm(forms.Form):
 
 class PortfolioForm(forms.Form):
     ticker = forms.CharField(label='Ticker', max_length=10)
+    def getTicker():
+        return ticker
     quantity = forms.IntegerField(label='Quantity', min_value=1)
+    def getQuantity():
+        return quantity
     action = forms.ChoiceField(label='Buy/Sell', choices=[('buy', 'Buy'), ('sell', 'Sell')])
+    def getAction():
+        return action

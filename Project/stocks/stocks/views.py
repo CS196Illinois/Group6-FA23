@@ -236,5 +236,9 @@ def portfolio(request):
         market_values.append(row["market_value"])
         prices.append(row["price"])
         quantities.append(row["qty"])
-    
+    action = portfolioForm.getAction
+    if(action.toLower() == "buy" and portfolioForm.is_valid()):
+        session.buy(portfolioForm.getTicker, portfolioForm.getQuantity)
+    if(action.toLower() == "sell" and portfolioForm.is_valid()):
+        session.sell(portfolioForm.getTicker, portfolioForm.getQuantity)
     return render(request, 'stocks/portfolio.html', {'forms': form, 'tickers': tickers, 'market_values': market_values, 'prices': prices, 'quantities': quantities})
